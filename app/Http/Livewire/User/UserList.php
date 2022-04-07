@@ -14,6 +14,39 @@ class UserList extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $search;
+
+    protected $listeners = ['removeUser' => 'removeUser'];
+
+    public function validateData($id)
+    {
+        // dd($id);
+        $this->dispatchBrowserEvent(
+            'swal:confirm',
+            [
+                'type' => 'warning',
+                'message' => 'Are you sure?',
+                'text' => 'If deleted, you will not be able to recover this account!',
+                'method_name' => 'removeUser',
+                'method_params' => [$id]
+            ]
+        );
+    }
+
+    public function removeUser($id)
+    {
+        $user = User::where('id', $id)->first();
+        $user->delete();
+
+        $this->dispatchBrowserEvent(
+            'alert',
+            [
+                'type' => 'success',
+                'title' => 'Success',
+                'message' => 'User has been removed!'
+            ]
+        );
+    }
+
     public function filterUserList()
     {
         $this->resetPage();

@@ -35,7 +35,9 @@ Route::group(
         function(){
             Route::get('/', [UserController::class, 'index'])->name('index');
             Route::get('/create', [UserController::class, 'create'])->name('create');
-            Route::get('/edit', [UserController::class, 'edit'])->name('edit');
+            Route::post('/store', [UserController::class, 'store'])->name('store');
+            Route::post('/update', [UserController::class, 'update'])->name('update');
+            Route::get('/edit/{id}', [UserController::class, 'edit'])->name('edit');
             Route::post('/destroy', [UserController::class, 'destroy'])->name('destroy');
         });
     }
